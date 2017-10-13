@@ -18,9 +18,14 @@ import socketserver
 #     data, addr = sock.recvfrom(1024)
 #     print("Hello "+data.decode())
 
-class MyUDPHandler(socketserver.BaseRequestHandler):
+class MyUDPHandler(socketserver.BaseRequestHandler, socketserver.ThreadingMixIn):
     """
         The request handler class for the server.
+    """
+    """
+        It is instantiated once per connection to the server, and must
+        override the handle() method to implement communication to the
+        client.
     """
 
     def handle(self):
@@ -41,11 +46,14 @@ class MyUDPHandler(socketserver.BaseRequestHandler):
         print("Hello ", data.decode())
         socket.sendto(data.upper(), self.client_address)
 
-
 if __name__ == "__main__":
-    HOST, PORT = "localhost", 9999
+    #HOST, PORT = "localhost", 9999
+
+    HOST = input("Host (default=localhost): ") or "localhost"  # Input host
+    PORT = input("Port (default=9999): ") or 9999 # Input port
+    PORT = int(PORT)
 
     print("Server: " + HOST + ":" + str(PORT))
     with socketserver.UDPServer((HOST, PORT), MyUDPHandler) as server:
         server.serve_forever()
-#Server stop when you click Ctrl-D
+#Server stop when you click Ctrl-C
