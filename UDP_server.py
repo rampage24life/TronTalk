@@ -1,3 +1,8 @@
+"""
+    Goal is to create a server applicatoin that listens on a UDP network
+    and when it receives a string, it will respond "Hello <string>"
+"""
+
 #import socket
 import socketserver
 
@@ -16,13 +21,10 @@ import socketserver
 class MyUDPHandler(socketserver.BaseRequestHandler):
     """
         The request handler class for the server.
-        It is instantiated once per connection to the server, and must
-        override the handle method to implement communication to
-        the client.
     """
 
     def handle(self):
-    """
+        """
         Handle funciton:
         This function must do all the work required to service a request.
         The default implementation does nothing.
@@ -31,7 +33,7 @@ class MyUDPHandler(socketserver.BaseRequestHandler):
             the client address as "self.client_address"
             the server instance as "self.server" (in case it needs access to
                 per-server information.
-    """
+        """
         #get data
         data = self.request[0].strip()
         
