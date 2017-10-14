@@ -1,6 +1,6 @@
 import socketserver
 
-class MyTCPHandler(socketserver.BaseRequestHandler):
+class MyTCPHandler(socketserver.BaseRequestHandler, socketserver.ThreadingMixIn):
   """
     The request handler class for the server.
   """
@@ -21,8 +21,11 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
     self.request.sendall(self.data.upper())
 
 if __name__ == "__main__":
-    HOST, PORT = "localhost", 9999
-
+    #HOST, PORT = "localhost", 9999
+    HOST = input("Host (default=localhost): ") or "localhost"  # Input host
+    PORT = input("Port (default=9999): ") or 9999 # Input port
+    PORT = int(PORT)
+    
     print("Server: "+HOST+":"+str(PORT))
 
     with socketserver.TCPServer((HOST, PORT), MyTCPHandler) as server: #Run server
